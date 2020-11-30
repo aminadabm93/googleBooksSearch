@@ -1,5 +1,5 @@
 import axios from "axios";
-require('dotenv').config();
+require('dotenv').config({process.env.API_KEY});
 
 const key = process.env.REACT_APP_API_KEY;
 
@@ -15,7 +15,7 @@ const key = process.env.REACT_APP_API_KEY;
 export default {
   //search for books with search 
   searchBooks: function(query){
-    return axios.get("https://www.googleapis.com/books/v1/volumes?q="+query+"&printType=books&maxResults=10&projection=lite&key=AIzaSyAQT5vOhsG3lTaG00ag6yLuuuVm-AkqhDg")
+    return axios.get("https://www.googleapis.com/books/v1/volumes?q="+query+"&printType=books&maxResults=10&projection=lite&key=")
   },
   // Gets all books
   getBooks: function() {
