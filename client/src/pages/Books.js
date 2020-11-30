@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import DeleteBtn from "../components/DeleteBtn";
+import SaveBtn from "../components/SaveBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
 import { Link } from "react-router-dom";
@@ -13,22 +13,26 @@ function Books() {
   const [formObject, setFormObject] = useState({})
 
   // Load all books and store them with setBooks
-  useEffect(() => {
-    loadBooks()
-  }, [])
+  // useEffect(() => {
+  //   loadBooks()
+  // }, [])
 
   // Loads all books and sets them to books
-  function loadBooks() {
-    API.getBooks()
-      .then(res => 
-        setBooks(res.data)
-      )
-      .catch(err => console.log(err));
+  function loadBooks(res) {
+    //we don't need to read from database we just need to update the list with
+    // the response's info. title. name. etc 
+    // need to pass this 
+    setBooks(res);
+    // API.getBooks()
+    //   .then(res => 
+    //     setBooks(res.data)
+    //   )
+    //   .catch(err => console.log(err));
   };
 
-  // Deletes a book from the database with a given id, then reloads books from the db
-  function deleteBook(id) {
-    API.deleteBook(id)
+  // Saves a book from the api res with a given id
+  function saveBook(id) {
+    API.saveBook(id)
       .then(res => loadBooks())
       .catch(err => console.log(err));
   }
@@ -43,71 +47,59 @@ function Books() {
   // Then reload books from the database
   function handleFormSubmit(event) {
     event.preventDefault();
-    if (formObject.title && formObject.author) {
-      API.saveBook({
-        title: formObject.title,
-        author: formObject.author,
-        synopsis: formObject.synopsis
-      })
-        .then(res => loadBooks())
+    if (formObject.search) {
+      API.searchBooks(formObject.search)
+        .then(res => {
+          console.log(res.data);
+          loadBooks(res.data.items);}
+          )
         .catch(err => console.log(err));
     }
   };
 
     return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                onChange={handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                onChange={handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                onChange={handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
-              <FormBtn
-                disabled={!(formObject.author && formObject.title)}
-                onClick={handleFormSubmit}
-              >
-                Submit Book
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
+    <Container fluid>
+      <Row>
+        <Col size="md-12">   
+          <Row>
+            <Col size="md-12">
+              <Jumbotron>
+                <h1>Search for books!</h1>
+              </Jumbotron>
+              <form>
+                <Input
+                  onChange={handleInputChange}
+                  name="search"
+                  placeholder="Search by anything! (required)"
+                />
+                <FormBtn disabled={!(formObject.search)} onClick={handleFormSubmit}>
+                  Search
+                </FormBtn>
+              </form>    
+            </Col>
+          </Row> 
+          <Jumbotron>
+            <h1>Results</h1>
+          </Jumbotron>
             {books.length ? (
               <List>
                 {books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
+                  <ListItem key={book.id}>
+                    <Link to={"/books/" + book.id}>
                       <strong>
-                        {book.title} by {book.author}
+                        {book.volumeInfo.title} by {book.volumeInfo.authors}
                       </strong>
                     </Link>
-                    <DeleteBtn onClick={() => deleteBook(book._id)} />
+                    <SaveBtn onClick={() => saveBook(book.id)} />
                   </ListItem>
                 ))}
               </List>
             ) : (
-              <h3>No Results to Display</h3>
+            <h3>No Results to Display</h3>
             )}
-          </Col>
-        </Row>
-      </Container>
+        </Col>    
+      </Row>                                                                   
+    </Container>
     );
   }
 
