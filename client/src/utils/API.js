@@ -1,9 +1,5 @@
 import axios from "axios";
-require('dotenv').config({process.env.API_KEY});
-
 const key = process.env.REACT_APP_API_KEY;
-
-
 
 
 //here we will use the google api to update our components.  
@@ -15,25 +11,26 @@ const key = process.env.REACT_APP_API_KEY;
 export default {
   //search for books with search 
   searchBooks: function(query){
-    return axios.get("https://www.googleapis.com/books/v1/volumes?q="+query+"&printType=books&maxResults=10&projection=lite&key=")
+    console.log(process.env);
+    return axios.get("https://www.googleapis.com/books/v1/volumes?q="+query+"&printType=books&maxResults=10&projection=lite&key="+key)
   },
   // Gets all books
   getBooks: function() {
     return axios.get("/api/books");
   },
   // Gets the book with the given id
-  getBook: function(id) {
-    return axios.get("/api/books/" + id);
-  },
-  // Saves the book with the given id
-  saveBook: function(id) {
-    //call a xios to retrieve book info and return the book info
-    // save book info to database using controller 
-    return axios.delete("/api/books/" + id);
-  },
-  // Saves a book to the database
+  // getBook: function(id) {
+  //   return axios.get("/api/books/" + id);
+  // },
+  
+  // Saves a book data to the database
   saveBook: function(bookData) {
+    console.log(bookData);
     return axios.post("/api/books", bookData);
+  },
+
+  deleteBook: function(bookID) {
+    return axios.delete("/api/books/"+bookID);
   }
 
 };

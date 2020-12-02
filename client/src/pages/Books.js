@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SaveBtn from "../components/SaveBtn";
+import ViewBtn from "../components/ViewBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
 import { Link } from "react-router-dom";
@@ -17,7 +18,7 @@ function Books() {
   //   loadBooks()
   // }, [])
 
-  // Loads all books and sets them to books
+  // Loads all favorite books when called by the favorites component 
   function loadBooks(res) {
     //we don't need to read from database we just need to update the list with
     // the response's info. title. name. etc 
@@ -31,10 +32,19 @@ function Books() {
   };
 
   // Saves a book from the api res with a given id
-  function saveBook(id) {
-    API.saveBook(id)
-      .then(res => loadBooks())
+  function saveBook(book) {
+    API.saveBook({title: book.book.volumeInfo.title,
+      author: book.book.volumeInfo.authors[0],
+      description: book.book.volumeInfo.description,
+      image: book.book.volumeInfo.imageLinks.smallThumbnail,
+      url: book.book.selfLink})      
       .catch(err => console.log(err));
+    alert("You have saved "+book.book.volumeInfo.title);
+  }
+
+  function viewBook(url){
+    //<Link to={"/books/" + book.id}></Link>
+    //link them to the google url 
   }
 
   // Handles updating component state when the user types into the input field
@@ -49,8 +59,7 @@ function Books() {
     event.preventDefault();
     if (formObject.search) {
       API.searchBooks(formObject.search)
-        .then(res => {
-          console.log(res.data);
+        .then(res => {         
           loadBooks(res.data.items);}
           )
         .catch(err => console.log(err));
@@ -84,14 +93,25 @@ function Books() {
             {books.length ? (
               <List>
                 {books.map(book => (
-                  <ListItem key={book.id}>
+                  <ListItem key={book.id}>                    
+                    <strong>
+                      {book.volumeInfo.title} by {book.volumeInfo.authors}
+                    </strong>
                     <Link to={"/books/" + book.id}>
-                      <strong>
-                        {book.volumeInfo.title} by {book.volumeInfo.authors}
-                      </strong>
-                    </Link>
-                    <SaveBtn onClick={() => saveBook(book.id)} />
+                      <ViewBtn onClick = {() => viewBook(book.id)}/>
+                    </Link>      
+                    <SaveBtn onClick={() => saveBook({book})} />
+                    <Row>
+                      <Col size="md-2">
+                      <img src={book.volumeInfo.imageLinks.smallThumbnail}/>
+                      </Col>  
+                      <Col size="md-10">
+                        <p>{book.volumeInfo.description}</p>
+                      </Col>                     
+                    </Row>
+                    
                   </ListItem>
+                  
                 ))}
               </List>
             ) : (
