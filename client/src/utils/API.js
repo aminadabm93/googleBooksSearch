@@ -1,5 +1,5 @@
 import axios from "axios";
-const key = process.env.REACT_APP_API_KEY;
+
 
 
 //here we will use the google api to update our components.  
@@ -12,7 +12,7 @@ export default {
   //search for books with search 
   searchBooks: function(query){
     console.log(process.env);
-    return axios.get("https://www.googleapis.com/books/v1/volumes?q="+query+"&printType=books&maxResults=10&projection=lite&key="+key)
+    return axios.get("https://www.googleapis.com/books/v1/volumes?q="+query+"&printType=books&maxResults=10&projection=lite&key="+process.env.REACT_APP_API_KEY)
   },
   // Gets all books
   getBooks: function() {
