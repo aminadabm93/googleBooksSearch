@@ -38,7 +38,7 @@ function Books() {
       description: book.book.volumeInfo.description,
       image: book.book.volumeInfo.imageLinks.smallThumbnail,
       url: book.book.volumeInfo.previewLink})      
-      .catch(err => console.log(err));
+      .then(res=> console.log(res)).catch(err => console.log(err));
     alert("You have saved "+book.book.volumeInfo.title);
   }
 
