@@ -37,7 +37,7 @@ function Books() {
       author: book.book.volumeInfo.authors[0],
       description: book.book.volumeInfo.description,
       image: book.book.volumeInfo.imageLinks.smallThumbnail,
-      url: book.book.selfLink})      
+      url: book.book.volumeInfo.previewLink})      
       .catch(err => console.log(err));
     alert("You have saved "+book.book.volumeInfo.title);
   }
