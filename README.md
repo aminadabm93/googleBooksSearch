@@ -19,11 +19,7 @@ If you want to run this locally, make sure you have node and mongodb installed. 
 ## Usage Instructions
 
 This application is deployed at https://moralesgooglebookearch.herokuapp.com/
-
-![homepage](./client/public/assets/booksearch.PNG)
-![bookpage](./client/public/assets/bookFavorites.PNG)
-
-
+Here is a gif showing how to use the app. [link](https://drive.google.com/file/d/1eJ2IBW8tU0ZsH8e0x6oIhSa1Jv_x8yAN/view)
 
 ## License
 
