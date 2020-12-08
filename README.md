@@ -25,7 +25,7 @@ Here is a gif showing how to use the app. [link](https://drive.google.com/file/d
 
 MIT 
 
-Copyright 2020 Raunel Suarez-Magana
+Copyright 2020 Aminadab Morales
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -39,4 +39,4 @@ Contributors include Aminadab Morales
 
 
 ## Questions
-Contact me at https://www.github.com/26rsuarezaminadabm93
+Contact me at https://www.github.com/aminadabm93
